@@ -57,9 +57,14 @@ body {
     cursor: pointer;
 }
 
-  /* Pseudo-class selector added to the .navbar-link class */
+  /* Pseudo-class selector added for hover over */
 .links-container .navbar-link:hover {
     color: rgb(233,50,117);
+}
+/* Pseudo-class selector added for mouse click */
+.links-container .navbar-link:active {
+  color: rgb(233,50,117);
+  background-color: white;
 }
 .container {
     margin: 0 auto;
