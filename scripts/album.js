@@ -31,20 +31,20 @@ var albumMarconi = {
 };
 
 // My Own Example of an Album
-  //var albumMoby = {
-  //title: 'These Systems Are Failing',
-  //artist: 'Moby',
-  //label: 'Mute, Little Idiot',
-  //  year: '2016',
-  //  albumArtUrl: 'assets/images/album_covers/Moby_Systems.jpg',
-  //  songs: [
-  //      { title: 'Hey! Hey!', duration: '4:23' },
-  //      { title: 'Break.Doubt', duration: '4:12' },
-  //      { title: 'Don\'t Leave Me', duration: '4:38' },
-  //      { title: 'Erupt and Matter', duration: '4:09' },
-  //      { title: 'Are You Lost in the World Like Me?', duration: '4:26'}
-  //  ]
-//};
+var albumMoby = {
+    title: 'These Systems Are Failing',
+    artist: 'Moby',
+    label: 'Mute, Little Idiot',
+    year: '2016',
+    albumArtUrl: 'assets/images/album_covers/Moby_Systems.jpg',
+    songs: [
+          { title: 'Hey! Hey!', duration: '4:23' },
+          { title: 'Break.Doubt', duration: '4:12' },
+          { title: 'Don\'t Leave Me', duration: '4:38' },
+          { title: 'Erupt and Matter', duration: '4:09' },
+          { title: 'Are You Lost in the World Like Me?', duration: '4:26'}
+      ]
+  };
 
 // This function generates song row content.
 var createSongRow = function(songNumber, songName, songLength) {
@@ -59,18 +59,16 @@ var createSongRow = function(songNumber, songName, songLength) {
     return template;
 };
 
-
+// #1 HTML elements populated and then moved to global scope to be accessed
+// by event listener.
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
 // This function injects the album object's stored info into the template.
 var setCurrentAlbum = function(album) {
-
-    // #1 HTML elements populated and then moved to global scope to be accessed
-    // by event listener.
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
     // #2 nodeValue sets value of the first child node.
     albumTitle.firstChild.nodeValue = album.title;
@@ -89,15 +87,14 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
-};
 
-//    var albums = [albumPicasso, albumMarconi, albumMoby];
-//    var index = 1;
-//    albumImage.addEventListener("click", function(event) {
-//        setCurrentAlbum(albums[index]);
-//    index++;
-//      if (index == albums.length) {
-//          index = 0;
-//    }
-//  });
-//  };
+    var albums = [albumPicasso, albumMarconi, albumMoby];
+    var index = 1;
+    albumImage.addEventListener("click", function(event) {
+        setCurrentAlbum(albums[index]);
+    index++;
+      if (index == albums.length) {
+          index = 0;
+    }
+  });
+};
