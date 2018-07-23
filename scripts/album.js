@@ -89,17 +89,24 @@ var setCurrentAlbum = function(album) {
     }
 };
 
-// Function: Traverses DOM upward until parent with specified class is found.
+// Function: Traverses DOM upward until parent with specified class is found;
+// If no parent found, send message to console log.
 var findParentByClassName = function(element, nameOfClass) {
-  if (element) {
-      var currentParent = element.parentElement;
-      while(currentParent.className !== nameOfClass &&
-          currentParent.className !== null) {
-              currentParent = currentParent.parentElement;
-          }
-      return currentParent;
-  }
-};
+    if (element.parentNode == null) {
+        console.log("No parent found");
+    }
+    else if (element.parentNode !== null) {
+        var currentParent = element.parentElement;
+        while(currentParent.className !== nameOfClass &&
+            currentParent.className !== null) {
+        if (currentParent.classList.contains(nameOfClass))
+            currentParent = currentParent.parentElement;
+    }
+    return currentParent;
+    }
+    console.log("No parent found with that class name");
+    return null;
+}
 
 // Function that always returns the song item
 var getSongItem = function(element) {
