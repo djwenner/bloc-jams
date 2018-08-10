@@ -5,6 +5,7 @@ var setSong = function(songNumber) {
 
     currentlyPlayingSongNumber = parseInt(songNumber);
     currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
     currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
         formats: [ 'mp3' ],
         preload: true
@@ -82,7 +83,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         if (songNumber !== currentlyPlayingSongNumber) {
             songNumberCell.html(songNumber);
         }
-//console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
+// console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
     };
 
      $row.find('.song-item-number').click(clickHandler);
@@ -171,6 +172,34 @@ var previousSong = function() {
     $lastSongNumberCell.html(lastSongNumber);
 };
 
+var togglePlayFromPlayerBar = function() {
+    var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+// Conditional statement to check if song is paused and the play button is clicked in the player bar
+  if (currentSoundFile.isPaused() && $playBarSelector.data("clicked", true)){
+
+    // Change the song number cell from a play button to a pause button
+    currentlyPlayingCell.html(pauseButtonTemplate);
+
+    // Change the HTML of the player bar's play button to a pause button
+    $('.main-controls .play-pause').html(playerBarPauseButton);
+
+    // Play the song
+    currentSoundFile.play();
+  }else{
+
+    // Change the song number cell from a pause button to a play button
+    currentlyPlayingCell.html(playButtonTemplate);
+
+    // Change the HTML of the player bar's pause button to a play button
+    $('.main-controls .play-pause').html(playerBarPlayButton);
+
+    // Pause the song
+    currentSoundFile.pause();
+  }
+
+};
+
 var updatePlayerBarSong = function() {
     $( ".currently-playing .song-name" ).text( currentSongFromAlbum.title );
     $( ".currently-playing .artist-name" ).text( currentAlbum.artist );
@@ -196,9 +225,13 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+// Variable to hold $('.main-controls .play-pause') selector
+var $playPause = $('.main-controls .play-pause');
 
  $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    // Corresponding click event
+    $playPause.click(togglePlayFromPlayerBar);
 });
