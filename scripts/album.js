@@ -36,7 +36,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         '<tr class="album-view-song-item">' +
         '<td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>' +
         '<td class="song-item-title">' + songName +
-        '</td>' + '  <td class="song-item-duration">' + songLength + '</td>' + '</tr>'
+        '</td>' + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>' + '</tr>'
      ;
 
     var $row = $(template);
@@ -55,7 +55,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     		  // Switch from Play -> Pause button to indicate new song is playing.
           setSong(songNumber);
           currentSoundFile.play();
-//          updateSeekBarWhileSongPlays();
+          updateSeekBarWhileSongPlays();
           currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
           var $volumeFill = $('.volume .fill');
@@ -135,29 +135,29 @@ var setCurrentAlbum = function(album) {
 };
 
 // Function to set the text of the element with .total-time class to the length of the song
-// var setTotalTimeInPlayerBar = function(totalTime) {
-//  $('.total-time').text(filterTimeCode(totalTime));
-// };
+var setTotalTimeInPlayerBar = function(totalTime) {
+  $('.total-time').text(filterTimeCode(totalTime));
+};
 
 // New function to handle calculations
-// var filterTimeCode = function(timeInSeconds) {
+var filterTimeCode = function(timeInSeconds) {
   // Get seconds in number form
-//   var parsedSeconds = parseFloat(timeInSeconds);
+  var parsedSeconds = parseFloat(timeInSeconds);
   // Get number of minutes (math function to round down)
-//   var getMinutes = Math.floor(parsedSeconds / 60);
+  var getMinutes = Math.floor(parsedSeconds / 60);
   // Get number of seconds
-//   var getSeconds = Math.floor(parsedSeconds % 60);
+  var getSeconds = Math.floor(parsedSeconds % 60);
   // Formatting time output
-//   getSeconds = getSeconds < 10 ? "0" + getSeconds : getSeconds;
-//   return getMinutes + ":" + getSeconds;
-//
-//   setTotalTimeInPlayerBar();
-// };
+  getSeconds = getSeconds < 10 ? "0" + getSeconds : getSeconds;
+  return getMinutes + ":" + getSeconds;
+
+  setTotalTimeInPlayerBar();
+};
 
 // Function that sets element text w/ .current-time class to current time in song
-// var setCurrentTimeInPlayerBar = function(currentTime) {
-//    $('.current-time').text(filterTimeCode(currentTime));
-// };
+var setCurrentTimeInPlayerBar = function(currentTime) {
+   $('.current-time').text(filterTimeCode(currentTime));
+};
 
 var updateSeekBarWhileSongPlays = function() {
     if (currentSoundFile) {
@@ -168,7 +168,7 @@ var updateSeekBarWhileSongPlays = function() {
             var $seekBar = $('.seek-control .seek-bar');
 
             updateSeekPercentage($seekBar, seekBarFillRatio);
-//            setCurrentTimeInPlayerBar(this.getTime());
+            setCurrentTimeInPlayerBar(this.getTime());
             setTotalTimeInPlayerBar(this.getDuration());
         });
     }
